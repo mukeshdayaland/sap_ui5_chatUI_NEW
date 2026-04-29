@@ -6,6 +6,7 @@ mta_archives/
 *.sqlite
 default-env.json
 .env
+deployment/cf-vars.yml
 coverage/
 dist/
 tmp/
