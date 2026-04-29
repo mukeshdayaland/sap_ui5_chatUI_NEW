@@ -83,13 +83,13 @@ modules:
 
   - name: sap-ui5-chat-ui-deployer
     type: com.sap.application.content
-    path: app/chat-ui
+    path: .
     requires:
       - name: sap-ui5-chat-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
-      build-result: dist
+      build-result: resources
       requires:
         - name: sap-ui5-chat-ui
           artifacts:
