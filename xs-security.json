@@ -1,0 +1,51 @@
+{
+  "xsappname": "sap-ui5-chat",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.ChatUser",
+      "description": "Use the SAP SuccessFactors chat assistant"
+    },
+    {
+      "name": "$XSAPPNAME.Employee.Read",
+      "description": "Read employee profile data through MCP"
+    },
+    {
+      "name": "$XSAPPNAME.Position.Read",
+      "description": "Read position data through MCP"
+    },
+    {
+      "name": "$XSAPPNAME.Leave.Read",
+      "description": "Read leave balance data through MCP"
+    },
+    {
+      "name": "$XSAPPNAME.MCP.Access",
+      "description": "Allow CAP to call the MCP middleware"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "ChatUser",
+      "description": "Chat assistant user",
+      "scope-references": [
+        "$XSAPPNAME.ChatUser",
+        "$XSAPPNAME.Employee.Read",
+        "$XSAPPNAME.Position.Read",
+        "$XSAPPNAME.Leave.Read"
+      ]
+    },
+    {
+      "name": "MCPTechnicalClient",
+      "description": "Technical access from CAP to MCP",
+      "scope-references": [
+        "$XSAPPNAME.MCP.Access"
+      ]
+    }
+  ],
+  "oauth2-configuration": {
+    "redirect-uris": [
+      "https://*.cfapps.*.hana.ondemand.com/**",
+      "http://localhost:5000/**"
+    ]
+  }
+}
