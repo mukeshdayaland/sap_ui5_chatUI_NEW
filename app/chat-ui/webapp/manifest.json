@@ -1,0 +1,45 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "sap.ui5.chat",
+    "type": "application",
+    "title": "SuccessFactors Assistant",
+    "description": "SAPUI5 chat interface for SuccessFactors queries through CAP and MCP.",
+    "applicationVersion": {
+      "version": "1.0.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "sap.ui5.chat.view.Chat",
+      "type": "XML",
+      "async": true,
+      "id": "chat"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "models": {}
+  }
+}
