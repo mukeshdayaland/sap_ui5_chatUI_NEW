@@ -11,7 +11,7 @@ build-parameters:
     - builder: custom
       commands:
         - npm install --omit=dev --no-audit --no-fund
-        - npx cds build --production
+        - npx --yes @sap/cds-dk cds build --production
 
 modules:
   - name: sap-ui5-chat-srv
