@@ -31,7 +31,17 @@ modules:
     properties:
       LLM_API_URL: https://api.openai.com/v1/chat/completions
       LLM_MODEL: gpt-4o-mini
+      LLM_API_KEY: ((llm-api-key))
       MCP_DESTINATION_NAME: MCP_MIDDLEWARE
+
+  - name: sap-ui5-chat-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 256M
+    requires:
+      - name: sap-ui5-chat-db
 
   - name: sap-ui5-chat-mcp
     type: nodejs
@@ -48,6 +58,12 @@ modules:
       - name: sap-ui5-chat-destination
     properties:
       SF_DESTINATION_NAME: SF_API
+      MCP_CLIENT_ID: ((mcp-client-id))
+      MCP_CLIENT_SECRET: ((mcp-client-secret))
+      SF_API_BASE_URL: ((sf-api-base-url))
+      SF_TOKEN_URL: ((sf-token-url))
+      SF_CLIENT_ID: ((sf-client-id))
+      SF_CLIENT_SECRET: ((sf-client-secret))
 
   - name: sap-ui5-chat-router
     type: approuter.nodejs
@@ -90,6 +106,29 @@ modules:
         - npm install
         - npm run build
       supported-platforms: []
+
+  - name: sap-ui5-chat-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: sap-ui5-chat-destination
+        parameters:
+          content-target: true
+      - name: mcp-api
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: MCP_MIDDLEWARE
+              URL: ~{mcp-api/mcp-url}
+              Type: HTTP
+              ProxyType: Internet
+              Authentication: OAuth2ClientCredentials
+              tokenServiceURL: ~{mcp-api/mcp-url}/auth/token
+              clientId: ((mcp-client-id))
+              clientSecret: ((mcp-client-secret))
+          existing_destinations_policy: update
+    build-parameters:
+      no-source: true
 
 resources:
   - name: sap-ui5-chat-xsuaa
