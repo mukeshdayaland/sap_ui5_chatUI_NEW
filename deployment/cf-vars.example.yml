@@ -1,0 +1,7 @@
+mcp-client-id: mcp-client
+mcp-client-secret: replace-with-generated-secret
+llm-api-key: replace-with-llm-provider-key
+sf-api-base-url: https://api.successfactors.com/odata/v2
+sf-token-url: https://example.successfactors.com/oauth/token
+sf-client-id: replace-with-successfactors-client-id
+sf-client-secret: replace-with-successfactors-client-secret
