@@ -1,0 +1,54 @@
+<mvc:View
+  controllerName="sap.ui5.chat.controller.Chat"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  displayBlock="true">
+  <App>
+    <Page title="SuccessFactors Assistant" class="chatPage">
+      <content>
+        <VBox class="chatShell">
+          <ScrollContainer id="messageScroller" height="100%" vertical="true" focusable="false" class="messageScroller">
+            <VBox
+              id="messageList"
+              class="messageList"
+              items="{chat>/messages}">
+              <items>
+                <HBox class="{= ${chat>role} === 'user' ? 'messageRow userRow' : 'messageRow assistantRow' }">
+                  <VBox class="{= ${chat>role} === 'user' ? 'messageBubble userBubble' : 'messageBubble assistantBubble' }">
+                    <Text text="{chat>text}" wrapping="true" />
+                  </VBox>
+                </HBox>
+              </items>
+            </VBox>
+          </ScrollContainer>
+          <HBox visible="{chat>/busy}" class="typingRow">
+            <BusyIndicator size="1rem" />
+            <Text text="Assistant is working..." class="typingText" />
+          </HBox>
+          <MessageStrip
+            visible="{= !!${chat>/error} }"
+            text="{chat>/error}"
+            type="Error"
+            showIcon="true"
+            showCloseButton="true"
+            close=".onCloseError" />
+        </VBox>
+      </content>
+      <footer>
+        <OverflowToolbar class="inputBar">
+          <Input
+            value="{chat>/input}"
+            placeholder="Ask about an employee, position, hierarchy, or leave balance"
+            submit=".onSend"
+            enabled="{= !${chat>/busy} }" />
+          <Button
+            icon="sap-icon://paper-plane"
+            type="Emphasized"
+            tooltip="Send"
+            press=".onSend"
+            enabled="{= !${chat>/busy} &amp;&amp; !!${chat>/input} }" />
+        </OverflowToolbar>
+      </footer>
+    </Page>
+  </App>
+</mvc:View>
