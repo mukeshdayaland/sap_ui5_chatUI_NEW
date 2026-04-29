@@ -10,7 +10,7 @@ build-parameters:
   before-all:
     - builder: custom
       commands:
-        - npm install
+        - npm install --omit=dev --no-audit --no-fund
         - npx cds build --production
 
 modules:
