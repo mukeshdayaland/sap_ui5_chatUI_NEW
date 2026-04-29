@@ -11,12 +11,15 @@ const { executeIntent } = require("./mcp-client");
 const { formatAssistantResponse } = require("./response-formatter");
 const { sanitizeMessage, normalizeContext } = require("./validation");
 
+let xsappname = "";
+
 function configurePassport() {
   if (process.env.NODE_ENV !== "production") {
     return false;
   }
 
   const services = xsenv.getServices({ xsuaa: { tag: "xsuaa" } });
+  xsappname = services.xsuaa.xsappname;
   passport.use(new JWTStrategy(services.xsuaa));
   return true;
 }
@@ -27,7 +30,13 @@ function requireScope(req, scope) {
   }
 
   const authInfo = req.authInfo;
-  if (!authInfo || !authInfo.checkScope(scope)) {
+  const fullScope = xsappname ? `${xsappname}.${scope}` : scope;
+  const hasScope = authInfo && (
+    authInfo.checkScope(fullScope) ||
+    (typeof authInfo.checkLocalScope === "function" && authInfo.checkLocalScope(scope))
+  );
+
+  if (!hasScope) {
     const error = new Error("Forbidden");
     error.status = 403;
     throw error;
@@ -51,7 +60,7 @@ cds.on("bootstrap", (app) => {
     const correlationId = req.headers["x-correlation-id"] || uuidv4();
 
     try {
-      requireScope(req, "$XSAPPNAME.ChatUser");
+      requireScope(req, "ChatUser");
 
       const message = sanitizeMessage(req.body && req.body.message);
       const context = normalizeContext(req.body && req.body.context);
