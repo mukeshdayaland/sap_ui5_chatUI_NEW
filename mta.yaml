@@ -1,0 +1,126 @@
+_schema-version: "3.3"
+ID: sap_ui5_chatui_new
+version: 1.0.0
+description: SAPUI5 CAP MCP SuccessFactors Chat Assistant
+
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+        - npx cds build --production
+
+modules:
+  - name: sap-ui5-chat-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 256M
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: sap-ui5-chat-xsuaa
+      - name: sap-ui5-chat-destination
+      - name: sap-ui5-chat-db
+    properties:
+      LLM_API_URL: https://api.openai.com/v1/chat/completions
+      LLM_MODEL: gpt-4o-mini
+      MCP_DESTINATION_NAME: MCP_MIDDLEWARE
+
+  - name: sap-ui5-chat-mcp
+    type: nodejs
+    path: mcp
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 256M
+    provides:
+      - name: mcp-api
+        properties:
+          mcp-url: ${default-url}
+    requires:
+      - name: sap-ui5-chat-xsuaa
+      - name: sap-ui5-chat-destination
+    properties:
+      SF_DESTINATION_NAME: SF_API
+
+  - name: sap-ui5-chat-router
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      memory: 128M
+      keep-existing-routes: true
+    requires:
+      - name: sap-ui5-chat-xsuaa
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: sap-ui5-chat-html5-runtime
+
+  - name: sap-ui5-chat-ui-deployer
+    type: com.sap.application.content
+    path: app/chat-ui
+    requires:
+      - name: sap-ui5-chat-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: dist
+      requires:
+        - name: sap-ui5-chat-ui
+          artifacts:
+            - chat-ui.zip
+          target-path: resources/
+
+  - name: sap-ui5-chat-ui
+    type: html5
+    path: app/chat-ui
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+
+resources:
+  - name: sap-ui5-chat-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+
+  - name: sap-ui5-chat-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        HTML5Runtime_enabled: true
+
+  - name: sap-ui5-chat-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: sap-ui5-chat-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: sap-ui5-chat-html5-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
