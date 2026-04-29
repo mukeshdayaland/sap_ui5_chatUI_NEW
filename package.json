@@ -12,6 +12,7 @@
   "dependencies": {
     "@sap-cloud-sdk/connectivity": "^4.0.0",
     "@sap-cloud-sdk/http-client": "^4.0.0",
+    "@cap-js/hana": "^1.5.0",
     "@sap/cds": "^8.0.0",
     "@sap/xsenv": "^5.0.0",
     "@sap/xssec": "^4.0.0",
