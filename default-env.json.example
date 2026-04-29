@@ -1,0 +1,32 @@
+{
+  "VCAP_SERVICES": {
+    "xsuaa": [
+      {
+        "name": "sap-ui5-chat-xsuaa",
+        "credentials": {
+          "url": "https://example.authentication.sap.hana.ondemand.com",
+          "clientid": "local-client-id",
+          "clientsecret": "local-client-secret",
+          "xsappname": "sap-ui5-chat"
+        }
+      }
+    ],
+    "destination": [
+      {
+        "name": "sap-ui5-chat-destination",
+        "credentials": {}
+      }
+    ]
+  },
+  "LLM_API_KEY": "replace-locally-only",
+  "LLM_API_URL": "https://api.openai.com/v1/chat/completions",
+  "LLM_MODEL": "gpt-4o-mini",
+  "MCP_DESTINATION_NAME": "MCP_MIDDLEWARE",
+  "MCP_CLIENT_ID": "mcp-client",
+  "MCP_CLIENT_SECRET": "replace-locally-only",
+  "MCP_TOKEN_URL": "https://mcp.example/oauth/token",
+  "SF_API_BASE_URL": "https://api.successfactors.com/odata/v2",
+  "SF_TOKEN_URL": "https://example.successfactors.com/oauth/token",
+  "SF_CLIENT_ID": "sf-client",
+  "SF_CLIENT_SECRET": "replace-locally-only"
+}
