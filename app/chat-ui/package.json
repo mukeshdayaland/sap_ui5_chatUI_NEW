@@ -1,0 +1,13 @@
+{
+  "name": "chat-ui",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "build": "ui5 build --all --clean-dest --dest dist"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.11.0",
+    "@sap/ux-ui5-tooling": "^1.14.0"
+  }
+}
