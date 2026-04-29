@@ -1,0 +1,74 @@
+.chatPage .sapMPageEnableScrolling {
+  overflow: hidden;
+}
+
+.chatShell {
+  height: calc(100vh - 7rem);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.messageScroller {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.messageList {
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.messageRow {
+  width: 100%;
+}
+
+.userRow {
+  justify-content: flex-end;
+}
+
+.assistantRow {
+  justify-content: flex-start;
+}
+
+.messageBubble {
+  max-width: min(46rem, 82%);
+  border-radius: 0.5rem;
+  padding: 0.75rem 0.875rem;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+}
+
+.userBubble {
+  background: #0a6ed1;
+  color: #fff;
+}
+
+.assistantBubble {
+  background: #f5f6f7;
+  border: 1px solid #d9d9d9;
+}
+
+.typingRow {
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.typingText {
+  color: #556b82;
+}
+
+.inputBar {
+  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 600px) {
+  .chatShell {
+    height: calc(100vh - 6.5rem);
+    padding: 0.75rem;
+  }
+
+  .messageBubble {
+    max-width: 92%;
+  }
+}
