@@ -1,0 +1,50 @@
+{
+  "name": "sap-ui5-chatui-new",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise SAP CAP, SAPUI5, AppRouter and MCP chatbot for SAP SuccessFactors.",
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch",
+    "build": "cds build",
+    "deploy": "mbt build && cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar"
+  },
+  "dependencies": {
+    "@sap-cloud-sdk/connectivity": "^4.0.0",
+    "@sap-cloud-sdk/http-client": "^4.0.0",
+    "@sap/cds": "^8.0.0",
+    "@sap/xsenv": "^5.0.0",
+    "@sap/xssec": "^4.0.0",
+    "axios": "^1.7.9",
+    "express": "^4.18.3",
+    "helmet": "^7.1.0",
+    "passport": "^0.7.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1.7.0",
+    "mbt": "^1.2.29"
+  },
+  "cds": {
+    "requires": {
+      "[development]": {
+        "auth": {
+          "kind": "dummy"
+        },
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "database": "db.sqlite"
+          }
+        }
+      },
+      "[production]": {
+        "auth": "xsuaa",
+        "db": "hana"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
