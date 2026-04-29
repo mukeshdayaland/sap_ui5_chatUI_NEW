@@ -44,13 +44,28 @@ Create `default-env.json` from `default-env.json.example` for local testing.
 npm install
 cds build
 mbt build
-cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar
+cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar -f --vars-file deployment/cf-vars.yml
 ```
 
-Configure destinations:
+Before deployment, copy `deployment/cf-vars.example.yml` to `deployment/cf-vars.yml` and provide the LLM, MCP technical client, and SuccessFactors credentials. The real `cf-vars.yml` file is gitignored.
 
-- `MCP_MIDDLEWARE`: points to deployed MCP middleware.
-- `SF_API`: points to SAP SuccessFactors API base URL, consumed only by MCP.
+The MTA deploys:
+
+- CAP service module `sap-ui5-chat-srv`
+- HANA DB deployer module `sap-ui5-chat-db-deployer`
+- MCP middleware module `sap-ui5-chat-mcp`
+- AppRouter module `sap-ui5-chat-router`
+- HTML5 app deployer and app-host/runtime services
+- XSUAA, Destination Service, and HDI container resources
+
+The deployment also creates/updates the `MCP_MIDDLEWARE` destination using OAuth2 Client Credentials.
+
+SuccessFactors runtime settings are passed to MCP through CF app environment variables from the MTA variables file:
+
+- `SF_API_BASE_URL`
+- `SF_TOKEN_URL`
+- `SF_CLIENT_ID`
+- `SF_CLIENT_SECRET`
 
 ## Security Notes
 
