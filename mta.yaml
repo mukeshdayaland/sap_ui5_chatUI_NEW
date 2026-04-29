@@ -77,7 +77,7 @@ modules:
       requires:
         - name: sap-ui5-chat-ui
           artifacts:
-            - chat-ui.zip
+            - sap-ui5-chat-ui.zip
           target-path: resources/
 
   - name: sap-ui5-chat-ui
