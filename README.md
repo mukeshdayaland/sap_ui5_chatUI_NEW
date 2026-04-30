@@ -44,10 +44,10 @@ Create `default-env.json` from `default-env.json.example` for local testing.
 npm install
 cds build
 mbt build
-cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar -f -e deployment/cf-placeholder.mtaext
+cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar -f
 ```
 
-Before deployment, create or adapt an MTA extension descriptor with the LLM, MCP technical client, and SuccessFactors credentials. Do not commit real secrets.
+Before deployment, replace placeholder values in `mta.yaml` or use a secure MTA extension descriptor for the LLM, MCP technical client, and SuccessFactors credentials. Do not commit real secrets.
 
 The MTA deploys:
 
@@ -57,7 +57,7 @@ The MTA deploys:
 - HTML5 app deployer and app-host/runtime services
 - XSUAA, Destination Service, and HTML5 app repository resources
 
-The deployment also creates/updates the `MCP_MIDDLEWARE` destination using OAuth2 Client Credentials.
+The deployment binds Destination Service for enterprise connectivity patterns. In this CF space, CAP also receives `MCP_BASE_URL` directly from the MTA because destination-content deployment requires landscape-specific destination properties.
 
 SuccessFactors runtime settings are passed to MCP through CF app environment variables from the MTA extension descriptor:
 
