@@ -27,11 +27,15 @@ modules:
     requires:
       - name: sap-ui5-chat-xsuaa
       - name: sap-ui5-chat-destination
+      - name: mcp-api
     properties:
       LLM_API_URL: https://api.openai.com/v1/chat/completions
       LLM_MODEL: gpt-4o-mini
       LLM_API_KEY: ((llm-api-key))
       MCP_DESTINATION_NAME: MCP_MIDDLEWARE
+      MCP_BASE_URL: ~{mcp-api/mcp-url}
+      MCP_CLIENT_ID: ((mcp-client-id))
+      MCP_CLIENT_SECRET: ((mcp-client-secret))
 
   - name: sap-ui5-chat-mcp
     type: nodejs
@@ -96,29 +100,6 @@ modules:
         - npm install
         - npm run build
       supported-platforms: []
-
-  - name: sap-ui5-chat-destination-content
-    type: com.sap.application.content
-    requires:
-      - name: sap-ui5-chat-destination
-        parameters:
-          content-target: true
-      - name: mcp-api
-    parameters:
-      content:
-        instance:
-          destinations:
-            - Name: MCP_MIDDLEWARE
-              URL: ~{mcp-api/mcp-url}
-              Type: HTTP
-              ProxyType: Internet
-              Authentication: OAuth2ClientCredentials
-              tokenServiceURL: ~{mcp-api/mcp-url}/auth/token
-              clientId: ((mcp-client-id))
-              clientSecret: ((mcp-client-secret))
-          existing_destinations_policy: update
-    build-parameters:
-      no-source: true
 
 resources:
   - name: sap-ui5-chat-xsuaa
