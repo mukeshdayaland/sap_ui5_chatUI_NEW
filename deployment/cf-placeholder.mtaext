@@ -1,0 +1,32 @@
+_schema-version: "3.3"
+ID: sap_ui5_chatui_new-placeholder
+extends: sap_ui5_chatui_new
+
+modules:
+  - name: sap-ui5-chat-srv
+    properties:
+      LLM_API_KEY: temporary-llm-key-change-me
+
+  - name: sap-ui5-chat-mcp
+    properties:
+      MCP_CLIENT_ID: mcp-client
+      MCP_CLIENT_SECRET: temporary-deployment-secret-change-me
+      SF_API_BASE_URL: https://api.successfactors.com/odata/v2
+      SF_TOKEN_URL: https://example.successfactors.com/oauth/token
+      SF_CLIENT_ID: temporary-sf-client-id
+      SF_CLIENT_SECRET: temporary-sf-client-secret
+
+  - name: sap-ui5-chat-destination-content
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: MCP_MIDDLEWARE
+              URL: ~{mcp-api/mcp-url}
+              Type: HTTP
+              ProxyType: Internet
+              Authentication: OAuth2ClientCredentials
+              tokenServiceURL: ~{mcp-api/mcp-url}/auth/token
+              clientId: mcp-client
+              clientSecret: temporary-deployment-secret-change-me
+          existing_destinations_policy: update
