@@ -27,7 +27,7 @@ The UI never calls SuccessFactors, the LLM, or MCP directly. Secrets are stored 
 - `app/router`: SAP Application Router.
 - `srv`: CAP backend/BFF exposing `POST /chat/query`.
 - `mcp`: dedicated middleware service that owns SuccessFactors authentication and normalization.
-- `db`: placeholder CAP database module.
+- `db`: optional placeholder model for future persistence; the current CF deployment does not require HANA because the target space has no HANA entitlement.
 
 ## Local Setup
 
@@ -44,23 +44,22 @@ Create `default-env.json` from `default-env.json.example` for local testing.
 npm install
 cds build
 mbt build
-cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar -f --vars-file deployment/cf-vars.yml
+cf deploy mta_archives/sap_ui5_chatui_new_1.0.0.mtar -f -e deployment/cf-placeholder.mtaext
 ```
 
-Before deployment, copy `deployment/cf-vars.example.yml` to `deployment/cf-vars.yml` and provide the LLM, MCP technical client, and SuccessFactors credentials. The real `cf-vars.yml` file is gitignored.
+Before deployment, create or adapt an MTA extension descriptor with the LLM, MCP technical client, and SuccessFactors credentials. Do not commit real secrets.
 
 The MTA deploys:
 
 - CAP service module `sap-ui5-chat-srv`
-- HANA DB deployer module `sap-ui5-chat-db-deployer`
 - MCP middleware module `sap-ui5-chat-mcp`
 - AppRouter module `sap-ui5-chat-router`
 - HTML5 app deployer and app-host/runtime services
-- XSUAA, Destination Service, and HDI container resources
+- XSUAA, Destination Service, and HTML5 app repository resources
 
 The deployment also creates/updates the `MCP_MIDDLEWARE` destination using OAuth2 Client Credentials.
 
-SuccessFactors runtime settings are passed to MCP through CF app environment variables from the MTA variables file:
+SuccessFactors runtime settings are passed to MCP through CF app environment variables from the MTA extension descriptor:
 
 - `SF_API_BASE_URL`
 - `SF_TOKEN_URL`
