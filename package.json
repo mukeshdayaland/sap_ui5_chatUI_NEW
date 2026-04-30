@@ -1,6 +1,6 @@
 {
   "name": "sap-ui5-chatui-new",
-  "version": "1.0.0",
+ "version": "1.0.0",
   "private": true,
   "description": "Enterprise SAP CAP, SAPUI5, AppRouter and MCP chatbot for SAP SuccessFactors.",
   "scripts": {
@@ -40,8 +40,7 @@
         }
       },
       "[production]": {
-        "auth": "xsuaa",
-        "db": "hana"
+        "auth": "xsuaa"
       }
     }
   },
