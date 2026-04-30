@@ -27,21 +27,11 @@ modules:
     requires:
       - name: sap-ui5-chat-xsuaa
       - name: sap-ui5-chat-destination
-      - name: sap-ui5-chat-db
     properties:
       LLM_API_URL: https://api.openai.com/v1/chat/completions
       LLM_MODEL: gpt-4o-mini
       LLM_API_KEY: ((llm-api-key))
       MCP_DESTINATION_NAME: MCP_MIDDLEWARE
-
-  - name: sap-ui5-chat-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-      memory: 256M
-    requires:
-      - name: sap-ui5-chat-db
 
   - name: sap-ui5-chat-mcp
     type: nodejs
@@ -145,12 +135,6 @@ resources:
       service-plan: lite
       config:
         HTML5Runtime_enabled: true
-
-  - name: sap-ui5-chat-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
 
   - name: sap-ui5-chat-html5-repo-host
     type: org.cloudfoundry.managed-service
